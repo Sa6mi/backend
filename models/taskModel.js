@@ -1,4 +1,4 @@
-import { db } from "../db/database.js";
+import { db } from "../Config/database.js";
 
 export const getAllTasks = async () => {
   return db.any("SELECT * FROM tasks");

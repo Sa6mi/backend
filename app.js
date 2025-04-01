@@ -1,13 +1,20 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import "express-async-errors";
-import userRouter from "./routes/users.js";
-import TaskRouter from "./routes/tasks.js";
+import router from "./routes/Router.js";
+import passport from "passport";
+import { JwtStrategy } from "./Config/passport.js";
+
 const app = express();
-const port = 3001;
+
+const port = process.env.PORT || 3001;
+passport.use(JwtStrategy);
 app.use(express.json());
-app.use("/users", userRouter);
-app.use("/tasks", TaskRouter);
-app.use((err,req,res,next)=>{
-  res.status(500).send("Error")
-})
+app.use("/", router);
+app.use((err, req, res, next) => {
+  res.status(500).send("Error");
+  console.log(err);
+});
 app.listen(port, () => console.log(`Server Started on port ${port}`));
